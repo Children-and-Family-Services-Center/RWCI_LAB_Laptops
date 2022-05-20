@@ -83,7 +83,7 @@ EXIT /b
 ECHO %time% - RenamePC - Start >> C:\Apps\log.txt
 FOR /F "Tokens=*" %%I IN ('powershell "gwmi win32_bios | Select-Object -Expand SerialNumber"') do SET name=%%I
 IF %COMPUTERNAME%==RWCI-LAB-%name:~-7% ECHO %time% - RenamePC - Name Correct >> C:\Apps\log.txt & EXIT /b
-WMIC computersystem where caption='%computername%' rename 'CFSC-L-%name:~-7%'
+WMIC computersystem where caption='%computername%' rename 'RWCI-LAB-%name:~-7%'
 ECHO %time% - RenamePC - Finish >> C:\Apps\log.txt
 EXIT /b
 
