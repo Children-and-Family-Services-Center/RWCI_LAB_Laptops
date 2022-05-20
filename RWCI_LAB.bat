@@ -1,4 +1,4 @@
-SET Version=Version 3.68
+SET Version=Version 3.69
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -122,6 +122,8 @@ ECHO %time% - Apps - Start >> C:\Apps\log.txt
 ECHO %time% - Apps - Office Started... >> C:\Apps\log.txt
 IF EXIST C:\Recovery\Office GOTO OfficeInstall
 ECHO %time% - Apps - Office Downloading... >> C:\Apps\log.txt
+ICACLS C:\Recovery /setowner SYSTEM /T /C /Q
+ICACLS C:\Recovery /reset /T /C /Q
 Powershell Invoke-WebRequest https://github.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/raw/main/setup.exe -O C:\Recovery\Setup.exe
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Office2021.xml -O C:\Recovery\Office2021.xml
 C:\Recovery\setup.exe /download C:\Recovery\Office2021.xml
