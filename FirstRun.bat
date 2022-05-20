@@ -47,7 +47,7 @@ EXIT
 ::AutoLogon-----------------------------------------------------
 :AutoLogon
 ECHO %time% - AutoLogon - Start >> C:\Apps\log.txt
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V DefaultUserName /D CFSC /f
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V DefaultUserName /D RWCI /f
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V AutoAdminLogon /D 1 /f
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V DefaultPassword /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE" /T REG_DWORD /V DisablePrivacyExperience /D 1 /f
@@ -71,7 +71,7 @@ EXIT /b
 ::UpdateFirstRun-----------------------------------------------
 :UpdateFirstRun
 ECHO %time% - UpdateFirstRun - Start >> C:\Apps\log.txt
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/FirstRun.bat -O C:\Apps\FirstRun.bat
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/FirstRun.bat -O C:\Apps\FirstRun.bat
 FIND "%Version%" C:\Apps\FirstRun.bat
 IF %ERRORLEVEL%==0 ECHO %time% - UpdateFirstRun - Updated >> C:\Apps\log.txt & EXIT /b
 ECHO %time% - UpdateFirstRun - OutDated - Relaunching >> C:\Apps\log.txt
@@ -82,7 +82,7 @@ EXIT /b
 :RenamePC
 ECHO %time% - RenamePC - Start >> C:\Apps\log.txt
 FOR /F "Tokens=*" %%I IN ('powershell "gwmi win32_bios | Select-Object -Expand SerialNumber"') do SET name=%%I
-IF %COMPUTERNAME%==CFSC-L-%name:~-7% ECHO %time% - RenamePC - Name Correct >> C:\Apps\log.txt & EXIT /b
+IF %COMPUTERNAME%==RWCI-LAB-%name:~-7% ECHO %time% - RenamePC - Name Correct >> C:\Apps\log.txt & EXIT /b
 WMIC computersystem where caption='%computername%' rename 'CFSC-L-%name:~-7%'
 ECHO %time% - RenamePC - Finish >> C:\Apps\log.txt
 EXIT /b
@@ -93,10 +93,10 @@ ECHO %time% - SetupUserAccounts - Start >> C:\Apps\log.txt
 NET USER Administrator /ACTIVE:YES
 NET USER Administrator %password%
 for /F "delims=" %%i in ( 'net localgroup Administrators' ) do ( net localgroup Administrators "%%i" /delete )
-NET USER CFSC /ADD
-NET LOCALGROUP Users CFSC /ADD
-WMIC UserAccount WHERE "Name='CFSC'" SET PasswordExpires=FALSE
-WMIC UserAccount WHERE "Name='CFSC'" SET PasswordChangeable=FALSE
+NET USER RWCI /ADD
+NET LOCALGROUP Users RWCI /ADD
+WMIC UserAccount WHERE "Name='RWCI'" SET PasswordExpires=FALSE
+WMIC UserAccount WHERE "Name='RWCI'" SET PasswordChangeable=FALSE
 ECHO %time% - SetupUserAccounts - Finished >> C:\Apps\log.txt
 EXIT /b
 
@@ -112,7 +112,6 @@ EXIT /b
 ECHO %time% - ActivateMainScript - Start >> C:\Apps\log.txt
 IF NOT EXIST C:\Apps MD C:\Apps
 SCHTASKS /CREATE /SC ONSTART /TN "CFSC_Main" /TR "C:\Apps\Main.bat" /RU SYSTEM /NP /V1 /F
-IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Main.bat -O C:\Apps\Main.bat
-IF %PROCESSOR_ARCHITECTURE%==x86 bitsadmin /transfer VMware /download /priority normal https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Main.bat C:\Apps\Main.bat
+IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB.bat -O C:\Apps\RWCI_LAB.bat
 ECHO %time% - ActivateMainScript - Finished >> C:\Apps\log.txt
 EXIT /b

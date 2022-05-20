@@ -55,14 +55,13 @@ EXIT /b
 ::UpdateMain-----------------------------------------------------------------------
 :UpdateMain
 ECHO %time% - UpdateMain - Start >> C:\Apps\log.txt
-SCHTASKS /query /TN CFSC_Main
-IF %ERRORLEVEL%==1 SCHTASKS /CREATE /SC ONSTART /TN "CFSC_Main" /TR "C:\Apps\Main.bat" /RU SYSTEM /NP /V1 /F
-IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Main.bat -O C:\Apps\Main.bat
-IF %PROCESSOR_ARCHITECTURE%==x86 bitsadmin /transfer VMware /download /priority normal https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Main.bat C:\Apps\Main.bat
-FIND "%Version%" C:\Apps\Main.bat
+SCHTASKS /query /TN RWCI_LAB_Main
+IF %ERRORLEVEL%==1 SCHTASKS /CREATE /SC ONSTART /TN "RWCI_LAB_Main" /TR "C:\Apps\RWCI_LAB.bat" /RU SYSTEM /NP /V1 /F
+IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB.bat -O C:\Apps\RWCI_LAB.bat
+FIND "%Version%" C:\Apps\RWCI_LAB.bat
 IF %ERRORLEVEL%==0 ECHO %time% - UpdateMain - Updated >> C:\Apps\log.txt & EXIT /b
 ECHO %time% - UpdateMain - OutDated - Relaunching >> C:\Apps\log.txt
-CALL C:\apps\Main.bat
+CALL C:\apps\RWCI_LAB.bat
 ECHO %time% - UpdateMain - Finish >> C:\Apps\log.txt
 EXIT /b
 
@@ -79,11 +78,14 @@ EXIT /b
 :WiFiPreload
 ECHO %time% - WiFiPreload - Start >> C:\Apps\log.txt
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Apps\WiFi-CFSCPublicPW.xml
-netsh wlan show profiles | find "CFSC Public PW"
+Powershell Invoke-WebRequest https://github.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/blob/main/RWCI_LAB_WiFi.xml -O C:\Apps\RWCI_LAB_WiFi.xml
+netsh wlan show profiles | find "RWCI Guest"
 IF %ERRORLEVEL%==0 ECHO %time% - WiFiPreload - WiFi Already Loaded >> C:\Apps\log.txt & EXIT /b
 netsh wlan add profile filename="C:\Apps\WiFi-CFSCPublicPW.xml" interface="Wi-Fi" user=all
+netsh wlan add profile filename="C:\Apps\RWCI_LAB_WiFi.xml" interface="Wi-Fi" user=all
 ECHO %time% - WiFiPreload - WiFi Loaded >> C:\Apps\log.txt
 DEL C:\Apps\WiFI-CFSCPublicPW.xml /F /Q
+DEL C:\Apps\RWCI_LAB_WiFi.xml /F /Q
 ECHO %time% - WiFiPreload - Finish >> C:\Apps\log.txt
 EXIT /b
 
@@ -91,11 +93,10 @@ EXIT /b
 :CleanupVMwareDumpFiles
 ECHO %time% - CleanupVMwareDumpFiles - Start >> C:\Apps\log.txt
 RD C:\ProgramData\VMware\VDM /S /Q
-RD "C:\Users\United Way\AppData\Local\VMware\VDM" /S /Q
-RD "C:\Users\CFSC\AppData\Local\VMware\VDM" /S /Q
+RD "C:\Users\RWCI\AppData\Local\VMware\VDM" /S /Q
 DEL %temp%\*.* /F /S /Q
 DEL C:\WINDOWS\Temp\*.* /F /S /Q
-DEL C:\Users\CFSC\Desktop\debug.log /F /Q
+DEL C:\Users\RWCI\Desktop\debug.log /F /Q
 ECHO %time% - CleanupVMwareDumpFiles - Finish >> C:\Apps\log.txt
 EXIT /b
 
@@ -117,12 +118,6 @@ EXIT /b
 ::Applications---------------------------------------------------------
 :Applications
 ECHO %time% - Apps - Start >> C:\Apps\log.txt
-::----------------VMware Horizon Client-----------------------
-ECHO %time% - Apps - VMware Horizon Client Installing... >> C:\Apps\log.txt
-choco upgrade vmware-horizon-client -y --install-if-not-installed
-REG ADD "HKLM\SOFTWARE\WOW6432Node\Policies\VMware, Inc.\VMware VDM\Client" /V ServerURL /T REG_SZ /D horizon.childrenfamily.org /F
-REG ADD "HKLM\SOFTWARE\Policies\VMware, Inc.\VMware VDM\Client" /V ServerURL /T REG_SZ /D horizon.childrenfamily.org /F
-ECHO %time% - Apps - VMware Horizon Client Finished >> C:\Apps\log.txt
 ::----------------Google Chrome--------------------------------
 ECHO %time% - Apps - Google Chrome Installing... >> C:\Apps\log.txt
 choco upgrade googlechrome -y --install-if-not-installed
@@ -155,7 +150,7 @@ EXIT /b
 ::FileAssociations--------------------------------------------------------------------
 :FileAssociations
 ECHO %time% - FileAssociations - Start >> C:\Apps\log.txt
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/AppAssoc.xml -O C:\Apps\AppAssoc.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/AppAssoc.xml -O C:\Apps\AppAssoc.xml
 DISM /Online /Export-DefaultAppAssociations:C:\Apps\AppAssoc.xml
 ECHO %time% - FileAssociations - Finish >> C:\Apps\log.txt
 EXIT /b
@@ -178,9 +173,10 @@ EXIT /b
 :Recovery
 ECHO %time% - Recovery Started >> C:\Apps\log.txt
 IF NOT EXIST C:\Recovery\AutoApply MD C:\Recovery\AutoApply
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/unattend.xml -O C:\Recovery\AutoApply\unattend.xml
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Restore.bat -O C:\Recovery\AutoApply\Restore.bat
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/unattend.xml -O C:\Recovery\AutoApply\unattend.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB_WiFi.xml -O C:\Recovery\AutoApply\RWCI_LAB_WiFi.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Restore.bat -O C:\Recovery\AutoApply\Restore.bat
 ECHO %time% - Recovery Finished >> C:\Apps\log.txt
 EXIT /b
 

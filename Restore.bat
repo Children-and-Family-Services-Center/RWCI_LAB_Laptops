@@ -14,6 +14,7 @@ EXIT
 ::CheckInternet--------------------------------------------------------------------
 :CheckInternet
 netsh wlan add profile filename="C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml" interface="Wi-Fi" user=all
+netsh wlan add profile filename="C:\Recovery\AutoApply\RWCI_LAB_WiFi.xml" interface="Wi-Fi" user=all
 SET REPEAT=0
 :REPEAT
 IF %REPEAT%==5 CLS & ECHO No Internet - Please Connect to Internet and press Enter & TIMEOUT /T 60 & SET REPEAT=0
@@ -32,8 +33,8 @@ EXIT /b
 ::RenamePC-----------------------------------------------------
 :RenamePC
 FOR /F "Tokens=*" %%I IN ('powershell "gwmi win32_bios | Select-Object -Expand SerialNumber"') do SET name=%%I
-IF %COMPUTERNAME%==CFSC-L-%name:~-7% EXIT /b
-WMIC computersystem where caption='%computername%' rename 'CFSC-L-%name:~-7%'
+IF %COMPUTERNAME%==RWCI-LAB-%name:~-7% EXIT /b
+WMIC computersystem where caption='%computername%' rename 'RWCI-LAB-%name:~-7%'
 EXIT /b
 
 ::InstallChoco-----------------------------------------------------
@@ -44,14 +45,13 @@ EXIT /b
 ::ActivateMainScript-----------------------------------------------------
 :ActivateMainScript
 IF NOT EXIST C:\Apps MD C:\Apps
-SCHTASKS /CREATE /SC ONSTART /TN "CFSC_Main" /TR "C:\Apps\Main.bat" /RU SYSTEM /NP /V1 /F
-IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Main.bat -O C:\Apps\Main.bat
-IF %PROCESSOR_ARCHITECTURE%==x86 bitsadmin /transfer VMware /download /priority normal https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/Main.bat C:\Apps\Main.bat
+SCHTASKS /CREATE /SC ONSTART /TN "RWCI_LAB_Main" /TR "C:\Apps\RWCI_LAB.bat" /RU SYSTEM /NP /V1 /F
+IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB.bat -O C:\Apps\RWCI_LAB.bat
 EXIT /b
 
 ::AutoLogon-----------------------------------------------------
 :AutoLogon
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V DefaultUserName /D CFSC /f
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V DefaultUserName /D RWCI /f
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V AutoAdminLogon /D 1 /f
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon" /T REG_SZ /V DefaultPassword /f
 REG ADD "HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE" /T REG_DWORD /V DisablePrivacyExperience /D 1 /f
@@ -62,8 +62,8 @@ EXIT /b
 NET USER Administrator /ACTIVE:YES
 NET USER Administrator %password%
 for /F "delims=" %%i in ( 'net localgroup Administrators' ) do ( net localgroup Administrators "%%i" /delete )
-NET USER CFSC /ADD
-NET LOCALGROUP Users CFSC /ADD
-WMIC UserAccount WHERE "Name='CFSC'" SET PasswordExpires=FALSE
-WMIC UserAccount WHERE "Name='CFSC'" SET PasswordChangeable=FALSE
+NET USER RWCI /ADD
+NET LOCALGROUP Users RWCI /ADD
+WMIC UserAccount WHERE "Name='RWCI'" SET PasswordExpires=FALSE
+WMIC UserAccount WHERE "Name='RWCI'" SET PasswordChangeable=FALSE
 EXIT /b
