@@ -1,5 +1,5 @@
 @ECHO OFF
-SET Version=Version 2.8
+SET Version=Version 2.9
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -111,7 +111,7 @@ EXIT /b
 :ActivateMainScript
 ECHO %time% - ActivateMainScript - Start >> C:\Apps\log.txt
 IF NOT EXIST C:\Apps MD C:\Apps
-SCHTASKS /CREATE /SC ONSTART /TN "CFSC_Main" /TR "C:\Apps\Main.bat" /RU SYSTEM /NP /V1 /F
+SCHTASKS /CREATE /SC ONSTART /TN "RWCI_LAB_Main" /TR "C:\Apps\RWCI_LAB.bat" /RU SYSTEM /NP /V1 /F
 IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB.bat -O C:\Apps\RWCI_LAB.bat
 ECHO %time% - ActivateMainScript - Finished >> C:\Apps\log.txt
 EXIT /b
