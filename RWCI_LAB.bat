@@ -1,4 +1,4 @@
-SET Version=Version 3.66
+SET Version=Version 3.67
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -172,8 +172,8 @@ EXIT /b
 ::Recovery--------------------------------------------------------------------
 :Recovery
 ECHO %time% - Recovery Started >> C:\Apps\log.txt
-CACLS C:\Recovery /e /p SYSTEM:F
-CACLS C:\Recovery /e /p Administrators:F
+ICACLS C:\Recovery /setowner SYSTEM /T /C /Q
+ICACLS C:\Recovery /reset /T /C /Q
 IF NOT EXIST C:\Recovery\AutoApply MD C:\Recovery\AutoApply
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/unattend.xml -O C:\Recovery\AutoApply\unattend.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
