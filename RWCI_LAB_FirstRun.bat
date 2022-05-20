@@ -71,11 +71,11 @@ EXIT /b
 ::UpdateFirstRun-----------------------------------------------
 :UpdateFirstRun
 ECHO %time% - UpdateFirstRun - Start >> C:\Apps\log.txt
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/FirstRun.bat -O C:\Apps\FirstRun.bat
-FIND "%Version%" C:\Apps\FirstRun.bat
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB_FirstRun.bat -O C:\Apps\RWCI_LAB_FirstRun.bat
+FIND "%Version%" C:\Apps\RWCI_LAB_FirstRun.bat
 IF %ERRORLEVEL%==0 ECHO %time% - UpdateFirstRun - Updated >> C:\Apps\log.txt & EXIT /b
 ECHO %time% - UpdateFirstRun - OutDated - Relaunching >> C:\Apps\log.txt
-CALL C:\apps\FirstRun.bat
+CALL C:\apps\RWCI_LAB_FirstRun.bat
 EXIT /b
 
 ::RenamePC-----------------------------------------------------
