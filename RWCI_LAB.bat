@@ -1,4 +1,4 @@
-SET Version=Version 3.75
+SET Version=Version 3.76
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -187,8 +187,7 @@ EXIT /b
 ECHO %time% - Recovery Started >> C:\Apps\log.txt
 ICACLS C:\Recovery /setowner SYSTEM /T /C /Q
 ICACLS C:\Recovery /reset /T /C /Q
-PowerShell -Command " && { Get-ChildItem C:\Recovery | Where-Object { $_.Name -ne 'AutoApply' } | Remove-Item -Force -Recurse }"
-IF NOT EXIST C:\Recovery\AutoApply MD C:\Recovery\AutoApply
+IF NOT EXIST C:\Recovery\AutoApply DEL C:\Recovery\*.* /F /S /Q & MD C:\Recovery\AutoApply
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/unattend.xml -O C:\Recovery\AutoApply\unattend.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB_WiFi.xml -O C:\Recovery\AutoApply\RWCI_LAB_WiFi.xml
