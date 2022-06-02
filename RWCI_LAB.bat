@@ -1,4 +1,4 @@
-SET Version=Version 3.69
+SET Version=Version 3.70
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -10,8 +10,8 @@ CALL :SleepSettings
 CALL :CheckInternet
 CALL :UpdateMain
 CALL :UpdateScreenConnect
-CALL :DisableIPv6
 CALL :WiFiPreload
+CALL :DisableIPv6
 CALL :Applications
 CALL :FileAssociations
 CALL :Recovery
