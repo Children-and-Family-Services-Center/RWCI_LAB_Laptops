@@ -35,8 +35,8 @@
 
   <!--  <RemoveMSI All="True" /> -->
 
-  <!--  <Display Level="None" AcceptEULA="TRUE" />  -->
+ <Display Level="None" AcceptEULA="TRUE" />  -->
 
-  <!--  <Property Name="AUTOACTIVATE" Value="1" />  -->
+ <Property Name="AUTOACTIVATE" Value="1" />  -->
 
 </Configuration>
