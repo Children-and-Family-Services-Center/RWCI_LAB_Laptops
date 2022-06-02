@@ -19,7 +19,7 @@
 <Configuration>
 
   <Add SourcePath="C:\Recovery\AutoApply" OfficeClientEdition="64" Channel="PerpetualVL2021">
-    <Product ID="ProPlus2021Volume">
+    <Product ID="ProPlus2021Volume" PIDKEY="9NJGB-4F87X-6KQXY-R468T-GMXKH">
       <Language ID="en-us" />
       <ExcludeApp ID="Lync" />
     </Product>
