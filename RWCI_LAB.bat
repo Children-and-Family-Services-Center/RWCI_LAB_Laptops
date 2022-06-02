@@ -1,4 +1,4 @@
-SET Version=Version 3.84
+SET Version=Version 3.85
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -131,6 +131,7 @@ C:\Recovery\setup.exe /download C:\Recovery\Office2021.xml
 ECHO %time% - Apps - Office Installing... >> C:\Apps\log.txt
 C:\Recovery\setup.exe /configure C:\Recovery\Office2021.xml
 slmgr /ipk 9NJGB-4F87X-6KQXY-R468T-GMXKH
+cscript "C:\Program Files\Microsoft Office\Office16\ospp.vbs" /act
 COPY "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Excel.lnk" C:\Users\Public\Desktop\Excel.lnk /Y
 COPY "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Word.lnk" C:\Users\Public\Desktop\Word.lnk /Y
 ECHO %time% - Apps - Office Finished >> C:\Apps\log.txt
