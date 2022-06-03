@@ -22,6 +22,7 @@
     <Product ID="Standard2021Volume" PIDKEY="9NJGB-4F87X-6KQXY-R468T-GMXKH">
       <Language ID="en-us" />
       <ExcludeApp ID="Lync" />
+	</Product>
   </Add>
 
   <Remove All="True" />
