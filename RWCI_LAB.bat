@@ -189,9 +189,7 @@ EXIT /b
 ECHO %time% - Recovery Started >> C:\Apps\log.txt
 ICACLS C:\Recovery /setowner SYSTEM /T /C /Q
 ICACLS C:\Recovery /reset /T /C /Q
-ECHO %time% - Recovery Test >> C:\Apps\log.txt
 IF NOT EXIST C:\Recovery\AutoApply RD C:\Recovery /s /q & MD C:\Recovery & MD C:\Recovery\AutoApply
-ECHO %time% - Recovery Test Done >> C:\Apps\log.txt
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/unattend.xml -O C:\Recovery\AutoApply\unattend.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB_WiFi.xml -O C:\Recovery\AutoApply\RWCI_LAB_WiFi.xml
