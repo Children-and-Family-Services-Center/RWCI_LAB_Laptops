@@ -1,4 +1,4 @@
-SET Version=Version 3.90
+SET Version=Version 3.91
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -15,6 +15,7 @@ CALL :WiFiPreload
 CALL :DisableIPv6
 CALL :Applications
 CALL :FileAssociations
+CALL :ProfileReset
 CALL :CleanupVMwareDumpFiles
 CALL :TruncateLog
 
