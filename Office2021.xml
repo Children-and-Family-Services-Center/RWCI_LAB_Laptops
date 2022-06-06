@@ -29,6 +29,7 @@
       <ExcludeApp ID="Outlook" />
       <ExcludeApp ID="Publisher" />
       <ExcludeApp ID="Teams" />
+      <ExcludeApp ID="Skype" />
 	</Product>
   </Add>
 
