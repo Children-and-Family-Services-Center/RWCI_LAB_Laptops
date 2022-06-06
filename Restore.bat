@@ -73,4 +73,15 @@ EXIT /b
 :AppCleanup
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/AppCleanup.ps1 -O C:\Recovery\AutoApply\AppCleanup.ps1
 Powershell -executionpolicy unrestricted -File C:\Recovery\AutoApply\Appcleanup.ps1
+taskkill.exe /F /IM "OneDrive.exe"
+taskkill.exe /F /IM "Explorer.exe"
+C:\Windows\System32\OneDriveSetup.exe /uninstall
+C:\Windows\SysWOW64\OneDriveSetup.exe /uninstall
+DEL "C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" -Force
+DEL "C:\Windows\ServiceProfiles\NetworkService\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" -Force
+REG Load HKLM\Temp C:\Users\Default\NTUSER.DAT
+REG Delete HKLM\Temp\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v OneDriveSetup /f
+REG Delete HKLM\Temp\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce /v "WAB Migrate" /f
+REG Unload HKLM\Temp
+START explorer.exe
 EXIT /b
