@@ -1,4 +1,4 @@
-SET Version=Version 3.86
+SET Version=Version 3.87
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -132,6 +132,7 @@ ECHO %time% - Apps - Office Installing... >> C:\Apps\log.txt
 C:\Recovery\setup.exe /configure C:\Recovery\Office2021.xml
 COPY "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Excel.lnk" C:\Users\Public\Desktop\Excel.lnk /Y
 COPY "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Word.lnk" C:\Users\Public\Desktop\Word.lnk /Y
+cscript.exe "C:\Program Files\Microsoft Office\Office16\ospp.vbs /unpkey:6F7TH
 ECHO %time% - Apps - Office Finished >> C:\Apps\log.txt
 ::----------------Google Chrome--------------------------------
 ECHO %time% - Apps - Google Chrome Installing... >> C:\Apps\log.txt
