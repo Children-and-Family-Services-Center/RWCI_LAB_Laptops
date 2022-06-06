@@ -1,4 +1,4 @@
-SET Version=Version 3.88
+SET Version=Version 3.89
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -202,7 +202,7 @@ EXIT /b
 ::AppCleanup-----------------------------------------------------------
 :AppCleanup
 ECHO %time% - AppCleanup Started >> C:\Apps\log.txt
-Powershell -Command " & {Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -NotLike "*Calculator*" -and $_.DisplayName -NotLike "*Alarms*" -and $_.DisplayName -NotLike "*Photo*" -and $_.DisplayName -NotLike "*Sticky*" -and $_.DisplayName -NotLike "*Edge*" -and $_.DisplayName -NotLike "*Paint*"} | Remove-AppXProvisionedPackage -Online}"
-Powershell -Command " & {Get-AppxPackage -AllUsers | Where-Object { $_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotLike "*Calculator*" -and $_.Name -NotLike "*Alarm*" -and $_.Name -NotLike "*Photo*" -and $_.Name -NotLike "*Sticky*" -and $_.Name -NotLike "*Edge*" -and $_.Name -NotLike "*Paint*"} | Remove-AppxPackage -AllUsers}"
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/AppCleanup.ps1 -O C:\Recovery\AutoApply\AppCleanup.ps1
+Powershell -executionpolicy unrestricted -File C:\Recovery\AutoApply\Appcleanup.ps1
 ECHO %time% - AppCleanup Finished >> C:\Apps\log.txt
 EXIT /b
