@@ -1,4 +1,4 @@
-SET Version=Version 3.87
+SET Version=Version 3.88
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -14,6 +14,7 @@ CALL :UpdateScreenConnect
 CALL :WiFiPreload
 CALL :DisableIPv6
 CALL :Applications
+CALL :AppCleanup
 CALL :FileAssociations
 CALL :CleanupVMwareDumpFiles
 CALL :TruncateLog
@@ -198,3 +199,10 @@ Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Fami
 ECHO %time% - Recovery Finished >> C:\Apps\log.txt
 EXIT /b
 
+::AppCleanup-----------------------------------------------------------
+:AppCleanup
+ECHO %time% - AppCleanup Started >> C:\Apps\log.txt
+Powershell -Command " & {Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -NotLike "*Calculator*" -and $_.DisplayName -NotLike "*Alarms*" -and $_.DisplayName -NotLike "*Photo*" -and $_.DisplayName -NotLike "*Sticky*" -and $_.DisplayName -NotLike "*Edge*" -and $_.DisplayName -NotLike "*Paint*"} | Remove-AppXProvisionedPackage -Online}"
+Powershell -Command " & {Get-AppxPackage -AllUsers | Where-Object { $_.IsFramework -Match 'False' -and $_.NonRemovable -Match 'False' -and $_.Name -NotLike "*Calculator*" -and $_.Name -NotLike "*Alarm*" -and $_.Name -NotLike "*Photo*" -and $_.Name -NotLike "*Sticky*" -and $_.Name -NotLike "*Edge*" -and $_.Name -NotLike "*Paint*"} | Remove-AppxPackage -AllUsers}"
+ECHO %time% - AppCleanup Finished >> C:\Apps\log.txt
+EXIT /b
