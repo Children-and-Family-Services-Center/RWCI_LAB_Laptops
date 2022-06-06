@@ -1,4 +1,4 @@
-SET Version=Version 3.89
+SET Version=Version 3.90
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -14,7 +14,6 @@ CALL :UpdateScreenConnect
 CALL :WiFiPreload
 CALL :DisableIPv6
 CALL :Applications
-CALL :AppCleanup
 CALL :FileAssociations
 CALL :CleanupVMwareDumpFiles
 CALL :TruncateLog
@@ -199,10 +198,3 @@ Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Fami
 ECHO %time% - Recovery Finished >> C:\Apps\log.txt
 EXIT /b
 
-::AppCleanup-----------------------------------------------------------
-:AppCleanup
-ECHO %time% - AppCleanup Started >> C:\Apps\log.txt
-Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/AppCleanup.ps1 -O C:\Recovery\AutoApply\AppCleanup.ps1
-Powershell -executionpolicy unrestricted -File C:\Recovery\AutoApply\Appcleanup.ps1
-ECHO %time% - AppCleanup Finished >> C:\Apps\log.txt
-EXIT /b
