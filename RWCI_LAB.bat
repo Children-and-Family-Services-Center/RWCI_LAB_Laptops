@@ -201,8 +201,8 @@ EXIT /b
 ::ProfileReset---------------------------------------------------------
 :ProfileReset
 ECHO %time% - ProfileReset Started >> C:\Apps\log.txt
-SCHTASKS /query /TN RWCI_LAB_ProfileReset
-IF %ERRORLEVEL%==1 SCHTASKS /CREATE /SC ONSTART /TN "RWCI_LAB_ProfileReset" /TR "C:\Recovery\AutoApply\ProfileReset.bat" /RU SYSTEM /NP /V1 /F
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/ProfileReset.bat -O C:\Recovery\AutoApply\ProfileReset.bat
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/ProfileReset.reg -O C:\Recovery\AutoApply\ProfileReset.reg
+REG IMPORT C:\Recovery\AutoApply\ProfileReset.reg
 ECHO %time% - ProfileReset Finished >> C:\Apps\log.txt
 EXIT /b
