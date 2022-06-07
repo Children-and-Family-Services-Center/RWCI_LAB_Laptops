@@ -1,4 +1,4 @@
-SET Version=Version 3.91
+SET Version=Version 3.92
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -121,7 +121,7 @@ EXIT /b
 ECHO %time% - Apps - Start >> C:\Apps\log.txt
 ::----------------Office 2021-------------------
 ECHO %time% - Apps - Office Started... >> C:\Apps\log.txt
-Powershell Invoke-WebRequest https://github.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/raw/main/setup.exe -O C:\Recovery\Setup.exe
+IF NOT EXIST C:\Recovery\Setup.exe Powershell Invoke-WebRequest https://github.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/raw/main/setup.exe -O C:\Recovery\Setup.exe
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Office2021.xml -O C:\Recovery\Office2021.xml
 IF EXIST C:\Recovery\AutoApply\Office GOTO OfficeInstall
 ECHO %time% - Apps - Office Downloading... >> C:\Apps\log.txt
@@ -130,10 +130,12 @@ ICACLS C:\Recovery /reset /T /C /Q
 C:\Recovery\setup.exe /download C:\Recovery\Office2021.xml
 :OfficeInstall
 ECHO %time% - Apps - Office Installing... >> C:\Apps\log.txt
+IF EXIST C:\Users\Public\Desktop\Word.lnk ECHO %time% - Apps - Office Already Installed >> C:\Apps\log.txt & GOTO OfficeDone
 C:\Recovery\setup.exe /configure C:\Recovery\Office2021.xml
 COPY "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Excel.lnk" C:\Users\Public\Desktop\Excel.lnk /Y
 COPY "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Word.lnk" C:\Users\Public\Desktop\Word.lnk /Y
 cscript.exe "C:\Program Files\Microsoft Office\Office16\ospp.vbs /unpkey:6F7TH
+:OfficeDone
 ECHO %time% - Apps - Office Finished >> C:\Apps\log.txt
 ::----------------Google Chrome--------------------------------
 ECHO %time% - Apps - Google Chrome Installing... >> C:\Apps\log.txt
