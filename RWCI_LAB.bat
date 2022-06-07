@@ -1,4 +1,4 @@
-SET Version=Version 3.93
+SET Version=Version 3.94
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -14,7 +14,7 @@ CALL :UpdateScreenConnect
 CALL :WiFiPreload
 CALL :DisableIPv6
 CALL :Applications
-CALL :FileAssociations
+CALL :FileAssociation
 CALL :ProfileReset
 CALL :CleanupVMwareDumpFiles
 CALL :TruncateLog
@@ -166,12 +166,12 @@ ECHO %time% - Apps - App Configs Finished >> C:\Apps\log.txt
 ECHO %time% - Apps - Finish >> C:\Apps\log.txt
 EXIT /b
 
-::FileAssociations--------------------------------------------------------------------
-:FileAssociations
-ECHO %time% - FileAssociations - Start >> C:\Apps\log.txt
+::FileAssociation--------------------------------------------------------------------
+:FileAssociation
+ECHO %time% - FileAssociation - Start >> C:\Apps\log.txt
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/AppAssoc.xml -O C:\Apps\AppAssoc.xml
 DISM /Online /Export-DefaultAppAssociations:C:\Apps\AppAssoc.xml
-ECHO %time% - FileAssociations - Finish >> C:\Apps\log.txt
+ECHO %time% - FileAssociation - Finish >> C:\Apps\log.txt
 EXIT /b
 
 ::SleepSettings--------------------------------------------------------------------
