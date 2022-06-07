@@ -1,3 +1,4 @@
-REG DELETE "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\S-1-5-21-1054529746-1597168808-3339453314-1000" /f /va
+for /f "Tokens=*" %%I in ('powershell -command " & {get-localuser RWCI | select-object SID | format-table -hidetableheader}"') Do Set UserSID=%%I
+REG DELETE "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\%UserSID%" /f /va
 RD C:\Users\RWCI /S /Q
 RD C:\Users\RWCI.%computername% /S /Q
