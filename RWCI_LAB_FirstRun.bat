@@ -1,5 +1,5 @@
 @ECHO OFF
-SET Version=Version 3
+SET Version=Version 3.1
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -19,6 +19,7 @@ CALL :SetupUserAccounts
 CALL :InstallChoco
 CALL :ActivateMainScript
 CALL :AutoLogon
+CALL :Recovery
 
 CLS
 IF EXIST C:\Recovery\AutoApply\Test GOTO test
@@ -114,4 +115,18 @@ IF NOT EXIST C:\Apps MD C:\Apps
 SCHTASKS /CREATE /SC ONSTART /TN "RWCI_LAB_Main" /TR "C:\Apps\RWCI_LAB.bat" /RU SYSTEM /NP /V1 /F
 IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB.bat -O C:\Apps\RWCI_LAB.bat
 ECHO %time% - ActivateMainScript - Finished >> C:\Apps\log.txt
+EXIT /b
+
+::Recovery--------------------------------------------------------------------
+:Recovery
+ECHO %time% - Recovery Started >> C:\Apps\log.txt
+TAKEOWN /R /A /F C:\Recovery /D Y
+ICACLS C:\Recovery /setowner SYSTEM /T /C /Q
+ICACLS C:\Recovery /reset /T /C /Q
+RD C:\Recovery /s /q & MD C:\Recovery & MD C:\Recovery\AutoApply
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/unattend.xml -O C:\Recovery\AutoApply\unattend.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB_WiFi.xml -O C:\Recovery\AutoApply\RWCI_LAB_WiFi.xml
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Restore.bat -O C:\Recovery\AutoApply\Restore.bat
+ECHO %time% - Recovery Finished >> C:\Apps\log.txt
 EXIT /b
