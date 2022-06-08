@@ -1,5 +1,5 @@
-SET Version=Version 3.95
-IF NOT EXIST C:\Apps MD C:\Apps
+SET Version=Version 3.96
+IF NOT EXIST C:\Apps MD C:\Apps & ATTRIB C:\Apps +S +H
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
 ECHO %Version% >> C:\Apps\log.txt
