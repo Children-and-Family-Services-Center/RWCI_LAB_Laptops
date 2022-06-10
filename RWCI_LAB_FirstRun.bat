@@ -23,14 +23,14 @@ CALL :Recovery
 
 CLS
 IF EXIST C:\Recovery\AutoApply\Test GOTO test
-ECHO Restarting PC...
+ECHO Reset PC...
 ECHO.
 ECHO Watch C:\Apps\Log.txt for status
 ECHO %time% - FirstRun - Finish >> C:\Apps\log.txt
 ECHO.
 TIMEOUT /T 5
+systemreset --factoryreset
 
-SHUTDOWN -r -t 10
 EXIT
 
 
