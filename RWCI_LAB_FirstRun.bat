@@ -1,5 +1,5 @@
 @ECHO OFF
-SET Version=Version 3.1
+SET Version=Version 3.2
 IF NOT EXIST C:\Apps MD C:\Apps
 ECHO. >> C:\Apps\log.txt
 ECHO %date% %time% >> C:\Apps\log.txt
@@ -112,6 +112,7 @@ EXIT /b
 :ActivateMainScript
 ECHO %time% - ActivateMainScript - Start >> C:\Apps\log.txt
 IF NOT EXIST C:\Apps MD C:\Apps
+SCHTASKS /DELETE /TN "CFSC_MAIN" /F
 SCHTASKS /CREATE /SC ONSTART /TN "RWCI_LAB_Main" /TR "C:\Apps\RWCI_LAB.bat" /RU SYSTEM /NP /V1 /F
 IF %PROCESSOR_ARCHITECTURE%==AMD64 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB.bat -O C:\Apps\RWCI_LAB.bat
 ECHO %time% - ActivateMainScript - Finished >> C:\Apps\log.txt
@@ -128,5 +129,6 @@ Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Fami
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/CFSC_Laptops/main/WiFi-CFSCPublicPW.xml -O C:\Recovery\AutoApply\WiFi-CFSCPublicPW.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/RWCI_LAB_WiFi.xml -O C:\Recovery\AutoApply\RWCI_LAB_WiFi.xml
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Restore.bat -O C:\Recovery\AutoApply\Restore.bat
+IF EXIST %~dp0Office ROBOCOPY %~dp0Office C:\Recovery\AutoApply\Office /E
 ECHO %time% - Recovery Finished >> C:\Apps\log.txt
 EXIT /b
