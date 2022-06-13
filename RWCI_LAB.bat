@@ -1,4 +1,4 @@
-SET Version=Version 3.99
+SET Version=Version 4.00
 IF NOT EXIST C:\Apps MD C:\Apps
 ATTRIB C:\Apps +S +H
 ECHO. >> C:\Apps\log.txt
@@ -139,6 +139,8 @@ ICACLS C:\Recovery /setowner SYSTEM /T /C /Q
 ICACLS C:\Recovery /reset /T /C /Q
 C:\Recovery\setup.exe /download C:\Recovery\Office2021.xml
 :OfficeInstall
+cscript.exe "C:\Program Files\Microsoft Office\Office16\ospp.vbs" /dstatus | FIND "GMXKH" > nul
+IF %ERRORLEVEL%==0 cscript.exe "C:\Program Files\Microsoft Office\Office16\ospp.vbs" /unpkey:GMXKH & cscript.exe "C:\Program Files\Microsoft Office\Office16\ospp.vbs" /inpkey:DVHD2-3NBY3-W3BYF-TT2J8-K2HTV & cscript.exe "C:\Program Files\Microsoft Office\Office16\ospp.vbs" /act
 IF EXIST C:\Users\Public\Desktop\Word.lnk ECHO %time% - Apps - Office Already Installed >> C:\Apps\log.txt & GOTO OfficeDone
 ECHO %time% - Apps - Office Installing... >> C:\Apps\log.txt
 C:\Recovery\setup.exe /configure C:\Recovery\Office2021.xml
