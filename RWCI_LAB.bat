@@ -16,6 +16,7 @@ CALL :UpdateScreenConnect
 CALL :WiFiPreload
 CALL :DisableIPv6
 CALL :Applications
+CALL :Printers
 CALL :ProfileReset
 CALL :FileAssociation
 CALL :CleanupVMwareDumpFiles
@@ -224,4 +225,12 @@ Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Fami
 Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/ProfileReset.reg -O C:\Recovery\AutoApply\ProfileReset.reg
 REG IMPORT C:\Recovery\AutoApply\ProfileReset.reg
 ECHO %time% - ProfileReset Finished >> C:\Apps\log.txt
+EXIT /b
+
+::Printers---------------------------------------------------------
+:Printers
+ECHO %time% - Printers Started >> C:\Apps\log.txt
+Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Xerox_WorkCentre_3615.zip -O C:\Recovery\AutoApply\Xerox_WorkCentre_3615.zip
+
+ECHO %time% - Printers Finished >> C:\Apps\log.txt
 EXIT /b
