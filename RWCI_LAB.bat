@@ -1,4 +1,4 @@
-SET Version=Version 4.00
+SET Version=Version 4.01
 IF NOT EXIST C:\Apps MD C:\Apps
 ATTRIB C:\Apps +S +H
 ECHO. >> C:\Apps\log.txt
@@ -171,6 +171,10 @@ ECHO %time% - Apps - Zoom Client Finished >> C:\Apps\log.txt
 ECHO %time% - Apps - Adobe Reader Installing... >> C:\Apps\log.txt
 choco upgrade adobereader -y --install-if-not-installed
 ECHO %time% - Apps - Adobe Reader Finished >> C:\Apps\log.txt
+::----------------7Zip--------------------------------
+ECHO %time% - Apps - 7Zip Installing... >> C:\Apps\log.txt
+choco upgrade 7zip -y --install-if-not-installed
+ECHO %time% - Apps - 7Zip Finished >> C:\Apps\log.txt
 ::----------------App Configs---------------------------------
 ECHO %time% - Apps - App Configs... >> C:\Apps\log.txt
 REG ADD HKLM\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Main /v PreventFirstRunPage /t REG_DWORD /d 1 /f
