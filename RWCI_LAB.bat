@@ -1,4 +1,4 @@
-SET Version=Version 4.02
+SET Version=Version 4.03
 IF NOT EXIST C:\Apps MD C:\Apps
 ATTRIB C:\Apps +S +H
 ECHO. >> C:\Apps\log.txt
@@ -169,9 +169,9 @@ ECHO %time% - Apps - Zoom Client Installing... >> C:\Apps\log.txt
 choco upgrade Zoom -y --install-if-not-installed
 ECHO %time% - Apps - Zoom Client Finished >> C:\Apps\log.txt
 ::----------------Adobe Reader--------------------------------
-ECHO %time% - Apps - Adobe Reader Installing... >> C:\Apps\log.txt
-choco upgrade adobereader -y --install-if-not-installed
-ECHO %time% - Apps - Adobe Reader Finished >> C:\Apps\log.txt
+::ECHO %time% - Apps - Adobe Reader Installing... >> C:\Apps\log.txt
+::choco upgrade adobereader -y --install-if-not-installed
+::ECHO %time% - Apps - Adobe Reader Finished >> C:\Apps\log.txt
 ::----------------7Zip--------------------------------
 ECHO %time% - Apps - 7Zip Installing... >> C:\Apps\log.txt
 choco upgrade 7zip -y --install-if-not-installed
