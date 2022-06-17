@@ -1,4 +1,4 @@
-SET Version=Version 4.04
+SET Version=Version 4.05
 IF NOT EXIST C:\Apps MD C:\Apps
 ATTRIB C:\Apps +S +H
 ECHO. >> C:\Apps\log.txt
@@ -233,6 +233,6 @@ ECHO %time% - Printers Started >> C:\Apps\log.txt
 IF NOT EXIST C:\Apps\Xerox_WorkCentre_3615.zip Powershell Invoke-WebRequest https://raw.githubusercontent.com/Children-and-Family-Services-Center/RWCI_LAB_Laptops/main/Xerox_WorkCentre_3615.zip -O C:\Apps\Xerox_WorkCentre_3615.zip & 7z x C:\Apps\Xerox_WorkCentre_3615.zip
 cscript "C:\Windows\System32\Printing_Admin_Scripts\en-US\prndrvr.vbs" -a -m "Xerox WorkCentre 3615 V4 PS" -h "C:\Apps\Xerox_WorkCentre_3615" -i "C:\Apps\Xerox_WorkCentre_3615\XeroxPhaser3610_WC3615_PS.inf"
 cscript "C:\WINDOWS\System32\Printing_Admin_Scripts\en-US\Prnport.vbs" -a -r IP_10.0.20.10 -h 10.0.20.10 -o raw -n 9100
-cscript "C:\WINDOWS\System32\Printing_Admin_Scripts\en-US\Prnmngr.vbs" -a -p "RWCI Lab Printer" -m "Xerox WorkCentre 3615 V4 PS" -r IP_10.0.20.10
+Powershell Add-Printer -Name "RWCI Lab Printer" -DriverName "Xerox WorkCentre 3615 V4 PS" -PortName "IP_10.0.20.10"
 ECHO %time% - Printers Finished >> C:\Apps\log.txt
 EXIT /b
